@@ -34,7 +34,7 @@ add 'rest_framework', 'api_basic' in INSTALLED_APPS from MyProject/settings.py
 
 ````
 
-### serializer branch, 
+### serializer-basics branch, 
 ````python
 # Before sending data to clients we need to serialize it to JSON format. Ap API's end result is always JSON format. An api communicate with multiple technologies which receives JSON format data. Let's create a model serializer -
 # Make an Article Class Model with their fields in MyProject/models.py
@@ -93,7 +93,19 @@ a= Article( title = 'First Title', author = 'First Author', email = 'First Email
 a.save()
 
 #Seralizer data showing
-serializer = ArticleSerializer(Article.object.all(),many=True)
-seralizer.data
+serializer = ArticleSerializer(a)
+serializer.data
+serializer = ArticleSerializer(Article.objects.all(),many=True)
+serializer.data
 ````
+
+### model-serializer branch, 
+````python
+#That was pretty basic of serialization but We can do better with model serialization
+
+
+````
+
+
+
 
