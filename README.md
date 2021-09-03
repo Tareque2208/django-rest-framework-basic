@@ -91,5 +91,9 @@ from rest_framework.parsers import JSONParser
 
 a= Article( title = 'First Title', author = 'First Author', email = 'First Email')
 a.save()
+
+#Seralizer data showing
+serializer = ArticleSerializer(Article.object.all(),many=True)
+seralizer.data
 ````
 
