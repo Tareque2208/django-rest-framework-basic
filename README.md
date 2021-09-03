@@ -101,7 +101,18 @@ serializer.data
 
 ### model-serializer branch, 
 ````python
-#That was pretty basic of serialization but We can do better with model serialization
+#That was pretty basic of serialization but We can do better with ModelSerializer
+
+    class Meta:
+        model = Article
+        fields = ['id', 'title', 'author']
+
+````
+
+###  function-based-api branch, 
+````python
+#this is one way to represnt api views
+
 
 
 ````
