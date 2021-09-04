@@ -125,10 +125,18 @@ serializer.data
 
 6.Again, repeatation for PUT method -> JSONParser().parse(request) - ArticleSerializer(article, data=perdata) - ArticleSerializer - check serializer.is_valid() - do save and return JsonResponse(serializer.data) - or return JsonResponse(serializer.errors)
 
-
-
 ````
 
 
 
+###  api-view branch, 
+````python
+#We are just going to use django rest framework browseable api, we can easily play with our data here
 
+1. replace  @csrf_exempt with @api_view(['GET','POST','PUT','DELETE']) according to the methods which are used in the function
+2. replace  JsonResponse,HttpResponse with Response
+3. We don not need to parse the request data so delete that and serialize, ArticleSerializer(data=request.data)
+4. replace status with status.HTTP_400_BAD_REQUEST or whatever that is
+5. change fields in ArticleSerializer to '__all__'
+
+````
