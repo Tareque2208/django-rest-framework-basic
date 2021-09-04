@@ -111,7 +111,19 @@ serializer.data
 
 ###  function-based-api branch, 
 ````python
-#this is one way to represnt api views
+#function base api is one way to represnt api views with routing, http request & response
+
+1. In view.py of my project, we are going to use article_list function to check for GET method -> get objects.all() - ArticleSerializer(articles) - return JsonResponse(serializer.data).
+
+2. or check for POST method -> JSONParser().parse(request) - ArticleSerializer(data=perdata) - ArticleSerializer - check serializer.is_valid() - do save and return JsonResponse(serializer.data) - or return JsonResponse(serializer.errors)
+
+3. by the way, Must user @csrf_exempt before every function for local testing on POSTMAN as because we want to be able to POST this request to view from clients that will not have a CSRF token, we need to mark the view as csrf_exempt. This is not something that you would normally want to do, and REST framework views actually use more sensible behavior than this, but it will do for our testing purposes right now.
+
+4. For details of each product, try -> Article.objects.get(pk=pk) - except Article.DoesNotExist -> return HttpResponse(status=404)
+
+5.Now, repeatation of checking method GET -> ArticleSerializer(article) - return JsonResponse(serializer.data)
+
+6.Again, repeatation for PUT method -> JSONParser().parse(request) - ArticleSerializer(article, data=perdata) - ArticleSerializer - check serializer.is_valid() - do save and return JsonResponse(serializer.data) - or return JsonResponse(serializer.errors)
 
 
 
