@@ -111,7 +111,7 @@ serializer.data
 
 ###  function-based-api branch, 
 ````python
-#function base api is one way to represnt api views with routing, http request & response
+#function base api is one way to represent api views with routing, http request & response
 
 1. In view.py of my project, we are going to use article_list function to check for GET method -> get objects.all() - ArticleSerializer(articles) - return JsonResponse(serializer.data).
 
@@ -140,3 +140,24 @@ serializer.data
 5. change fields in ArticleSerializer to '__all__'
 
 ````
+
+
+###  class-based-api branch, 
+````python
+# Class base api is another way to represent api views with routing, http request & response we just need to define both classes against functions
+
+1. from rest_framework.views import APIView
+
+2. define ArticleAPIView(APIView) & ArticleDetailsAPIView(APIView) and then define the function name as methods name and just replace previous logics within the functions. Boom !
+
+3. even define a function to get the object/article with article id and call it everytime to get the article details - article = self.get_article(id).
+
+4. change the urls with the classnames.as_view() - path('article/<int:id>/', ArticleDetailsAPIView.as_view())
+
+````
+
+###  class-based-api branch, 
+````python
+
+
+
