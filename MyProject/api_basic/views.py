@@ -20,53 +20,43 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
-class ArticleViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class ArticleViewSet(viewsets.ModelViewSet):
 
     # Look up is used for which field he is going to compare !
     lookup_field = 'id'
-    authentication_classes=[SessionAuthentication, BasicAuthentication]
+    authentication_classes=[SessionAuthentication, TokenAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
 
-    #Overriding modelviewset like as I want to add my logic on post, so 
-    #if uid exists then update, else create... as well other processing.
-    #Again I want to retrieve custom response
+   #OVERRIDING modelviewset methods 
+#     def create(self, request):
+#         if "uid" in request.POST:
+#             try:
+#                 instance = Article.objects.get(pk=request.POST['uid'])
+#                 print("Doing greate")
+#                 serializer = ArticleSerializer(
+#                     instance=instance,
+#                     data=request.data
+#                 )
+#             except Article.DoesNotExist:
+#                 print("Somthing is not doing well")
+#                 serializer = ArticleSerializer(data=request.data)
+#         else:
+#             serializer = ArticleSerializer(data=request.data)
 
-    class ArticleViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    # """
-    # API endpoint for adding and processing new client (by uid) Article
-    # """
-        queryset = Article.objects.all()
-        serializer_class = ArticleSerializer
-        permission_classes = [IsAuthenticated]
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
 
-        def create(self, request):
-            if "uid" in request.POST:
-                try:
-                    instance = Article.objects.get(pk=request.POST['uid'])
-                    serializer = ArticleSerializer(
-                        instance=instance,
-                        data=request.data
-                    )
-                except Article.DoesNotExist:
-                    serializer = ArticleSerializer(data=request.data)
-            else:
-                serializer = ArticleSerializer(data=request.data)
+#         return Response(serializer.data)
 
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-
-            return Response(serializer.data)
-    
-    #Retrieveing Custom Response
-        def retrieve(self, request, *args, **kwargs):
-            instance = self.get_object()
-            serializer = ArticleSerializer(instance=instance)
-            return Response(serializer.data)
-    
+# #Retrieveing Custom Response
+#     def retrieve(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         serializer = ArticleSerializer(instance=instance)
+#         return Response(serializer.data)
     
     
     
