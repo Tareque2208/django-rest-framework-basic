@@ -21,6 +21,13 @@ from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class ArticleViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+
+    # Look up is used for which field he is going to compare !
+    lookup_field = 'id'
+    authentication_classes=[SessionAuthentication, BasicAuthentication]
+    # authentication_classes=[TokenAuthentication]
+
+    permission_classes = [IsAuthenticated]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
     
