@@ -158,7 +158,7 @@ serializer.data
 
 ###  generic-mixin-based-api branch, 
 ````python
-# Generic base api is the easiest way to represent api views with routing, http request & response we just need to define both classes against functions import mixins - generics.GenericAPIView,RetrieveModel, ListModel, DestroyModel, CreateModel, UpdateModel, 
+# Generic base api is the easiest way to represent api views with routing, http request & response we just need to define both classes against functions import mixins - generics.GenericAPIView,RetrieveModel, ListModel, DestroyModel, CreateModel, UpdateModel
 
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
@@ -180,7 +180,18 @@ serializer.data
     def delete(self, request, id=None):
         return self.destroy(request, id)
 
-
 ````
 
 
+###  session-token-base-auth branch, 
+````python
+# Session based authentication indicates that you got to be using username, password while token base authentication can be done with Token {token-key} using postman.
+
+1. Add 'rest_framework.authtoken' in settings.py and python manag.py migrate
+2. from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+3. lookup_field = 'id'
+4. authentication_classes = [SessionAuthentication, BasicAuthentication]
+4. permission_classes = [IsAuthenticated]
+
+````
