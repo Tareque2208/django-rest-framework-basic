@@ -195,3 +195,13 @@ from rest_framework.permissions import IsAuthenticated
 4. permission_classes = [IsAuthenticated]
 
 ````
+
+
+###  viewset branch, 
+````python
+# Viewset is amazingly easy. You need to define list, create. retrieve, update, destroy
+
+just place all code from generic api view and replace -
+1. article = Article.objects.get(pk=pk)
+
+````
