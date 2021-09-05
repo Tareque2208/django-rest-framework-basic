@@ -20,68 +20,77 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
-class ArticleViewSet(viewsets.ViewSet):
-    def list(self, request):
-        articles = Article.objects.all()
-        serializer = ArticleSerializer(articles, many=True)
-        return Response(serializer.data)
+class ArticleViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
 
-    def create(self, request):
-        serializer = ArticleSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-    def retrieve(self, request, pk=None):
-        queryset = Article.objects.all()
-        article = get_object_or_404(queryset,pk =pk)
-        serializer = ArticleSerializer(article)
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        article = Article.objects.get(pk=pk)
-        serializer = ArticleSerializer(article, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-
-    def destroy(self, reques, pk=None):
-        article = Article.objects.get(pk=pk)
-        article.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-        
-
-
-
-
-class GenericArticleAPIView(generics.GenericAPIView,mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
-    serializer_class = ArticleSerializer
-    queryset = Article.objects.all()
-# Look up is used for which field he is going to compare !
+    # Look up is used for which field he is going to compare !
     lookup_field = 'id'
-    # authentication_classes=[SessionAuthentication, BasicAuthentication]
-    authentication_classes=[TokenAuthentication]
+    authentication_classes=[SessionAuthentication, BasicAuthentication]
+    # authentication_classes=[TokenAuthentication]
 
     permission_classes = [IsAuthenticated]
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+    
+    
+    
+    
+    # def list(self, request):
+    #     articles = Article.objects.all()
+    #     serializer = ArticleSerializer(articles, many=True)
+    #     return Response(serializer.data)
 
-    def get(self, request, id=None):
-        if id:
-            return self.retrieve(request)
-        else:
-            return self.list(request)
+    # def create(self, request):
+    #     serializer = ArticleSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    def post(self,request):
-        return self.create(request)
+    # def retrieve(self, request, pk=None):
+    #     queryset = Article.objects.all()
+    #     article = get_object_or_404(queryset,pk =pk)
+    #     serializer = ArticleSerializer(article)
+    #     return Response(serializer.data)
 
-    def put(self, request, id=None):
-        return self.update(request, id)
+    # def update(self, request, pk=None):
+    #     article = Article.objects.get(pk=pk)
+    #     serializer = ArticleSerializer(article, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id=None):
-        return self.destroy(request, id)
+
+    # def destroy(self, reques, pk=None):
+    #     article = Article.objects.get(pk=pk)
+    #     article.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class GenericArticleAPIView(generics.GenericAPIView,mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+#     serializer_class = ArticleSerializer
+#     queryset = Article.objects.all()
+# # Look up is used for which field he is going to compare !
+#     lookup_field = 'id'
+#     # authentication_classes=[SessionAuthentication, BasicAuthentication]
+#     authentication_classes=[TokenAuthentication]
+
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, id=None):
+#         if id:
+#             return self.retrieve(request)
+#         else:
+#             return self.list(request)
+
+#     def post(self,request):
+#         return self.create(request)
+
+#     def put(self, request, id=None):
+#         return self.update(request, id)
+
+#     def delete(self, request, id=None):
+#         return self.destroy(request, id)
 
 
 
