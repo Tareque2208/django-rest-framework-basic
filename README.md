@@ -156,8 +156,31 @@ serializer.data
 
 ````
 
-###  class-based-api branch, 
+###  generic-mixin-based-api branch, 
 ````python
+# Generic base api is the easiest way to represent api views with routing, http request & response we just need to define both classes against functions import mixins - generics.GenericAPIView,RetrieveModel, ListModel, DestroyModel, CreateModel, UpdateModel, 
 
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+# Look up is used for which field he is going to compare !
+    lookup_field = 'id'
+
+    def get(self, request, id=None):
+        if id:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+
+    def post(self,request):
+        return self.create(request)
+
+    def put(self, request, id=None):
+        return self.update(request, id)
+
+    def delete(self, request, id=None):
+        return self.destroy(request, id)
+
+
+````
 
 
