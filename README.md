@@ -192,7 +192,7 @@ serializer.data
 from rest_framework.permissions import IsAuthenticated
 3. lookup_field = 'id'
 4. authentication_classes = [SessionAuthentication, BasicAuthentication]
-4. permission_classes = [IsAuthenticated]
+5. permission_classes = [IsAuthenticated]
 
 ````
 
@@ -209,3 +209,34 @@ router.register('article', ArticleViewSet, basename='article')
 
 ````
 
+
+###  generic-viewset branch, 
+````python
+# Generic-Viewset is the easiest way ever. LOL
+
+#In Views -
+from rest_framework import mixins
+from rest_framework import viewsets
+
+from .models import Article
+from .serializers import ArticleSerializer
+
+class ArticleViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+
+#In Router -
+from .views import ArticleViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('article', ArticleViewSet, basename='article')
+
+urlpatterns = [
+
+    path('viewset/', include(router.urls)),
+    path('viewset/<int:pk>', include(router.urls)),
+]
+
+````
