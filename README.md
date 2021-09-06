@@ -240,3 +240,16 @@ urlpatterns = [
 ]
 
 ````
+
+
+###  model-viewset branch, 
+````python
+# This one the ground breaking. Lol
+
+class ArticleViewSet(viewsets.ModelViewSet):
+
+queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+#That's it ! Nothing else needs to change
+````
